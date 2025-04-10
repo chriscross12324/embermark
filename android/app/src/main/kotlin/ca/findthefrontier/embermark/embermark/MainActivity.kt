@@ -1,4 +1,4 @@
-package ca.findthefrontier.embermark.embermark
+package ca.findthefrontier.embermark
 
 import io.flutter.embedding.android.FlutterActivity
 
