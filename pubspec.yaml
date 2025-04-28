@@ -36,6 +36,7 @@ dependencies:
   bitsdojo_window: ^0.1.6
 
   macos_haptic_feedback: ^1.0.0
+  flutter_markdown: ^0.7.7
 
   google_fonts: ^6.2.1
 
