@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:flutter_acrylic/window.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hugeicons/hugeicons.dart';
 
@@ -30,12 +31,10 @@ class EmbermarkApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WidgetsApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      color: Color(0xFFFFFFFF),
-      onGenerateRoute: (settings) {
-        return MaterialPageRoute(builder: (context) => HomeScreen());
-      },
+      color: Colors.white,
+      home: HomeScreen(),
     );
   }
 }
@@ -48,6 +47,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  TextEditingController _textEditingController = TextEditingController();
+  ScrollController _scrollController = ScrollController();
+  String inputString = "";
   int pageNum = 0;
 
   @override
@@ -62,32 +64,93 @@ class _HomeScreenState extends State<HomeScreen> {
               : SplitView(
                 leftChild: Stack(
                   children: [
-                    Center(
-                      child: Text(
-                        'Working Pane',
-                        style: GoogleFonts.nunito(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
+                    TextField(
+                      expands: true,
+                      maxLines: null,
+                      minLines: null,
+                      keyboardType: TextInputType.multiline,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.fromLTRB(15, 15, 0, 15),
+                        hintText: 'Type...',
+                        hintStyle: GoogleFonts.nunito(
+                          color: Colors.white.withValues(alpha: 0.5),
                         ),
                       ),
+                      style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      scrollController: _scrollController,
+                      controller: _textEditingController,
+                      onChanged: (newString) {
+                        setState(() {
+                          inputString = newString;
+                        });
+                      },
                     ),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10, bottom: 15),
                         child: ActionToolbar(pageNum: pageNum),
+                        /*AdaptiveToolbar(
+                          groups: [
+                            ToolbarGroup(
+                              weight: 10,
+                              isCollapsed: true,
+                              groupID: 'undoredo1',
+                              children: [
+                                CustomIconButton(icon: HugeIcons.strokeRoundedUndo03),
+                                CustomIconButton(icon: HugeIcons.strokeRoundedRedo03),
+                              ],
+                            ),
+                            ToolbarGroup(
+                              weight: 9,
+                              isCollapsed: true,
+                              groupID: 'type',
+                              children: [
+                                CustomDropdownButton(),
+                              ],
+                            ),
+                            ToolbarGroup(
+                              weight: 8,
+                              isCollapsed: true,
+                              groupID: 'styling',
+                              children: [
+                                CustomIconButton(icon: HugeIcons.strokeRoundedTextBold),
+                                CustomIconButton(icon: HugeIcons.strokeRoundedTextItalic),
+                                CustomIconButton(icon: HugeIcons.strokeRoundedTextUnderline),
+                                CustomIconButton(icon: HugeIcons.strokeRoundedTextStrikethrough),
+                              ],
+                            ),
+                          ],
+                        ),*/
                       ),
                     ),
                   ],
                 ),
-                rightChild: Center(
-                  child: Text(
-                    'Preview Pane',
-                    style: GoogleFonts.nunito(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
+                rightChild: SelectionArea(
+                  child: Markdown(
+                    data: inputString,
+                    selectable: false,
+                    styleSheetTheme: MarkdownStyleSheetBaseTheme.material,
+                    styleSheet: MarkdownStyleSheet(
+                      a: TextStyle(color: Colors.white),
+                      p: TextStyle(color: Colors.white),
+                      code: TextStyle(color: Colors.white),
+                      h1: TextStyle(color: Colors.white),
+                      h2: TextStyle(color: Colors.white),
+                      h3: TextStyle(color: Colors.white),
+                      h4: TextStyle(color: Colors.white),
+                      h5: TextStyle(color: Colors.white),
+                      h6: TextStyle(color: Colors.white),
+                      em: TextStyle(color: Colors.white),
+                      strong: TextStyle(color: Colors.white),
+                      blockquote: TextStyle(color: Colors.white),
+                      img: TextStyle(color: Colors.white),
+                      checkbox: TextStyle(color: Colors.white),
+                      listBullet: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
@@ -106,13 +169,17 @@ class SmallWidthWarning extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          HugeIcon(icon: HugeIcons.strokeRoundedArrowHorizontal, color: Colors.white, size: 128,),
+          HugeIcon(
+            icon: HugeIcons.strokeRoundedArrowHorizontal,
+            color: Colors.white,
+            size: 128,
+          ),
           Text(
             'Window Too Small',
             style: GoogleFonts.nunito(
-                color: Colors.white.withValues(alpha: 0.75),
-                fontWeight: FontWeight.bold,
-                fontSize: 36
+              color: Colors.white.withValues(alpha: 0.75),
+              fontWeight: FontWeight.bold,
+              fontSize: 36,
             ),
             textAlign: TextAlign.center,
           ),
@@ -121,7 +188,7 @@ class SmallWidthWarning extends StatelessWidget {
             style: GoogleFonts.nunito(
               color: Colors.white.withValues(alpha: 0.5),
               fontWeight: FontWeight.bold,
-              fontSize: 16
+              fontSize: 16,
             ),
             textAlign: TextAlign.center,
           ),
@@ -135,3 +202,42 @@ bool isDesktop() {
   if (kIsWeb) return false;
   return Platform.isLinux || Platform.isMacOS || Platform.isWindows;
 }
+
+/// TEST MARKDOWN
+/**
+ * # Heading One
+
+    Lorem ipsum **bold text** dolor sit amet, _italic text_ consectetur adipiscing elit.
+
+    ## Heading Two
+
+    - Bullet point one
+    - Bullet point two
+    - Nested bullet point
+
+    1. First item
+    2. Second item
+    3. Third item
+
+    > This is a blockquote. Lorem ipsum dolor sit amet.
+
+    ```dart
+    void main() {
+    print('Hello, Markdown!');
+    }
+    ```
+
+    Here’s a [link to Flutter](https://flutter.dev) and some inline `code` for good measure.
+
+    ---
+
+    ### Heading Three
+
+    | Syntax | Description |
+    |--------|-------------|
+    | Header | Title        |
+    | Paragraph | Text      |
+
+    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. **Pellentesque** habitant morbi _tristique senectus_ et netus.
+
+ */
