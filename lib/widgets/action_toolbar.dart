@@ -1,5 +1,6 @@
 import 'package:embermark/widgets/custom_dropdown_button.dart';
 import 'package:embermark/widgets/custom_icon_button.dart';
+import 'package:embermark/widgets/custom_overflow_button.dart';
 import 'package:embermark/widgets/list_separator.dart';
 import 'package:embermark/widgets/measure_size.dart';
 import 'package:flutter/material.dart';
@@ -45,13 +46,13 @@ class _ActionToolbarState extends State<ActionToolbar>
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      height: 55,
+      height: 49,
       width: null,
       decoration: BoxDecoration(
         color: Color(0xFF2D2D2D),
         border: Border.all(
-          color: Colors.white.withValues(alpha: 0.1),
-          width: 2,
+          color: Colors.white.withValues(alpha: 0.075),
+          width: 1.5,
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
@@ -77,6 +78,7 @@ class _ActionToolbarState extends State<ActionToolbar>
                 if (size != _childSize) {
                   setState(() {
                     _childSize = size;
+                    print(size);
                   });
                 }
               },
@@ -99,6 +101,7 @@ Widget editorActions() {
       ListSeparator(orientation: Axis.vertical),
       CustomDropdownButton(),
       ListSeparator(orientation: Axis.vertical),
+      CustomOverflowButton(icon: HugeIcons.strokeRoundedTextBold),
       CustomIconButton(icon: HugeIcons.strokeRoundedTextBold),
       CustomIconButton(icon: HugeIcons.strokeRoundedTextItalic),
       CustomIconButton(icon: HugeIcons.strokeRoundedTextUnderline),
