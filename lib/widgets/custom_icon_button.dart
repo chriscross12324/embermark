@@ -1,3 +1,4 @@
+import 'package:embermark/core/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 
@@ -48,8 +49,8 @@ class _CustomIconButtonState extends State<CustomIconButton> {
           duration: const Duration(milliseconds: 75),
           curve: Curves.linear,
           child: AnimatedContainer(
-            height: 40,
-            width: 40,
+            height: 35,
+            width: iconButtonWidthNormal,
             decoration: BoxDecoration(
               color:
                   _isPressed ? Color(0xFF3D3D3D) :
@@ -88,7 +89,7 @@ class _CustomIconButtonState extends State<CustomIconButton> {
             child: HugeIcon(
               icon: widget.icon,
               color: Colors.white,
-              size: 22,
+              size: 20,
             ),
           ),
         ),
