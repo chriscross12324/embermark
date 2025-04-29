@@ -47,7 +47,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
           duration: const Duration(milliseconds: 75),
           curve: Curves.linear,
           child: AnimatedContainer(
-            height: 40,
+            height: 35,
             width: 120,
             decoration: BoxDecoration(
               color:
@@ -98,8 +98,8 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                   ),
                   HugeIcon(
                     icon: HugeIcons.strokeRoundedArrowDown01,
-                    color: Colors.white,
-                    size: 20,
+                    color: Colors.white.withValues(alpha: 0.65),
+                    size: 18,
                   ),
                 ],
               ),
