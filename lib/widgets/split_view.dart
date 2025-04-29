@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:macos_haptic_feedback/macos_haptic_feedback.dart';
 
 class SplitView extends StatefulWidget {
-  const SplitView({super.key, required this.leftChild, required this.rightChild});
+  const SplitView({
+    super.key,
+    required this.leftChild,
+    required this.rightChild,
+  });
 
   final Widget leftChild;
   final Widget rightChild;
@@ -12,7 +16,7 @@ class SplitView extends StatefulWidget {
 }
 
 class _SplitViewState extends State<SplitView> {
-  double _leftWidth = 300;
+  double _leftWidth = 600;
   final double _minWidth = 315;
   final double _splitterWidth = 10;
   final List<double> snapFractions = [0.25, 0.5, 0.75];
@@ -30,8 +34,14 @@ class _SplitViewState extends State<SplitView> {
     double totalWidth = MediaQuery.of(context).size.width;
     double rightWidth = totalWidth - _leftWidth - _splitterWidth;
 
-    _leftWidth = _leftWidth.clamp(_minWidth, totalWidth - _minWidth - _splitterWidth);
-    rightWidth = rightWidth.clamp(_minWidth, totalWidth - _minWidth - _splitterWidth);
+    _leftWidth = _leftWidth.clamp(
+      _minWidth,
+      totalWidth - _minWidth - _splitterWidth,
+    );
+    rightWidth = rightWidth.clamp(
+      _minWidth,
+      totalWidth - _minWidth - _splitterWidth,
+    );
 
     return Row(
       children: [
@@ -56,7 +66,8 @@ class _SplitViewState extends State<SplitView> {
             behavior: HitTestBehavior.translucent,
             onHorizontalDragUpdate: (details) {
               setState(() {
-                final total = MediaQuery.of(context).size.width - _splitterWidth;
+                final total =
+                    MediaQuery.of(context).size.width - _splitterWidth;
                 final maxLeftWidth = total - _minWidth;
                 final previousWidth = _leftWidth;
 
@@ -72,11 +83,14 @@ class _SplitViewState extends State<SplitView> {
                 } else {
                   // Only apply offset if we're recovering from over-drag
                   if (_dragOffsetCorrection != 0) {
-                    final remainingCorrection = _dragOffsetCorrection + details.delta.dx;
+                    final remainingCorrection =
+                        _dragOffsetCorrection + details.delta.dx;
 
                     // If the cursor hasn't caught up yet, don't move the splitter
-                    if ((_dragOffsetCorrection < 0 && remainingCorrection < 0) ||
-                        (_dragOffsetCorrection > 0 && remainingCorrection > 0)) {
+                    if ((_dragOffsetCorrection < 0 &&
+                            remainingCorrection < 0) ||
+                        (_dragOffsetCorrection > 0 &&
+                            remainingCorrection > 0)) {
                       _dragOffsetCorrection = remainingCorrection;
                       return;
                     }
@@ -115,12 +129,25 @@ class _SplitViewState extends State<SplitView> {
               color: Colors.transparent,
               child: Center(
                 child: AnimatedContainer(
-                  height: isSplitterDragging ? 60 : isSplitterHovered ? 50 : 30,
-                  width: isSplitterDragging ? 2 : 3,
+                  height:
+                      isSplitterDragging
+                          ? 50
+                          : isSplitterHovered
+                          ? 30
+                          : 25,
+                  width:
+                      isSplitterDragging
+                          ? 2
+                          : isSplitterHovered
+                          ? 3
+                          : 3,
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5)
-                  ), duration: const Duration(milliseconds: 250),
+                    color: Colors.white.withValues(
+                      alpha: isSplitterHovered || isSplitterDragging ? 1 : 0.35,
+                    ),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  duration: const Duration(milliseconds: 250),
                   curve: Curves.fastOutSlowIn,
                 ),
               ),
@@ -135,7 +162,10 @@ class _SplitViewState extends State<SplitView> {
             child: Container(
               decoration: BoxDecoration(
                 color: Color(0xFF484848),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.05), width: 1.5),
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.05),
+                  width: 1.5,
+                ),
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
