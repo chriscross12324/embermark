@@ -191,8 +191,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             CustomIconButton(icon: HugeIcons.strokeRoundedLeftToRightListBullet),
                             CustomIconButton(icon: HugeIcons.strokeRoundedLeftToRightListNumber),
                           ],
-                        ),*/
-                      ),
+                        ),
+                      ],),
                     ),
                   ],
                 ),
