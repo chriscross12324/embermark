@@ -9,7 +9,11 @@ class ListSeparator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(5),
-      child: Container(height: double.infinity, width: 2, color: Colors.white.withValues(alpha: 0.05),),
+      child: Container(
+        height: orientation == Axis.vertical ? double.infinity : 2,
+        width: orientation == Axis.vertical ? 2 : double.infinity,
+        color: Colors.white.withValues(alpha: 0.05),
+      ),
     );
   }
 }
