@@ -1,8 +1,11 @@
 import 'dart:io';
 
 import 'package:bitsdojo_window/bitsdojo_window.dart';
-import 'package:embermark/widgets/action_toolbar.dart';
+import 'package:embermark/widgets/custom_dropdown_button.dart';
+import 'package:embermark/widgets/custom_icon_button.dart';
 import 'package:embermark/widgets/split_view.dart';
+import 'package:embermark/widgets/toolbar/toolbar_group.dart';
+import 'package:embermark/widgets/toolbar/vertical_toolbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
@@ -21,7 +24,7 @@ Future<void> main() async {
   runApp(const EmbermarkApp());
   if (isDesktop()) {
     doWhenWindowReady(() {
-      appWindow.minSize = Size(640, 360);
+      appWindow.minSize = Size(800, 500);
     });
   }
 }
@@ -47,17 +50,50 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  TextEditingController _textEditingController = TextEditingController();
-  ScrollController _scrollController = ScrollController();
+  final TextEditingController _textEditingController = TextEditingController();
+  final ScrollController _scrollController1 = ScrollController();
+  final ScrollController _scrollController2 = ScrollController();
+  bool _isController1Scrolling = false;
+  bool _isController2Scrolling = false;
   String inputString = "";
   int pageNum = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    /*_scrollController1.addListener(() {
+      if (_isController2Scrolling) return;
+      _isController1Scrolling = true;
+      double scrollFraction = _scrollController1.offset / _scrollController1.position.maxScrollExtent;
+      double targetOffset = scrollFraction * _scrollController2.position.maxScrollExtent;
+      _scrollController2.jumpTo(targetOffset*/ /*.clamp(0.0, _scrollController2.position.maxScrollExtent)*/ /*);
+      _isController1Scrolling = false;
+    });
+
+    _scrollController2.addListener(() {
+      if (_isController1Scrolling) return;
+      _isController2Scrolling = true;
+      double scrollFraction = _scrollController2.offset / _scrollController2.position.maxScrollExtent;
+      double targetOffset = scrollFraction * _scrollController1.position.maxScrollExtent;
+      _scrollController1.jumpTo(targetOffset*/ /*.clamp(0.0, _scrollController1.position.maxScrollExtent)*/ /*);
+      _isController2Scrolling = false;
+    });*/
+  }
+
+  @override
+  void dispose() {
+    _scrollController1.dispose();
+    _scrollController2.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final belowMinWidth = MediaQuery.of(context).size.width < 640;
 
     return Scaffold(
-      backgroundColor: Color(0xFF363636),
+      backgroundColor: Color(0xFF1E1E1E),
       body:
           belowMinWidth
               ? SmallWidthWarning()
@@ -81,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.white,
                         fontWeight: FontWeight.normal,
                       ),
-                      scrollController: _scrollController,
+                      scrollController: _scrollController1,
                       controller: _textEditingController,
                       onChanged: (newString) {
                         setState(() {
@@ -90,40 +126,70 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                     Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10, bottom: 15),
-                        child: ActionToolbar(pageNum: pageNum),
-                        /*AdaptiveToolbar(
-                          groups: [
-                            ToolbarGroup(
-                              weight: 10,
-                              isCollapsed: true,
-                              groupID: 'undoredo1',
-                              children: [
-                                CustomIconButton(icon: HugeIcons.strokeRoundedUndo03),
-                                CustomIconButton(icon: HugeIcons.strokeRoundedRedo03),
-                              ],
-                            ),
-                            ToolbarGroup(
-                              weight: 9,
-                              isCollapsed: true,
-                              groupID: 'type',
-                              children: [
-                                CustomDropdownButton(),
-                              ],
-                            ),
-                            ToolbarGroup(
-                              weight: 8,
-                              isCollapsed: true,
-                              groupID: 'styling',
-                              children: [
-                                CustomIconButton(icon: HugeIcons.strokeRoundedTextBold),
-                                CustomIconButton(icon: HugeIcons.strokeRoundedTextItalic),
-                                CustomIconButton(icon: HugeIcons.strokeRoundedTextUnderline),
-                                CustomIconButton(icon: HugeIcons.strokeRoundedTextStrikethrough),
-                              ],
-                            ),
+                      alignment: Alignment.centerLeft,
+                      child: VerticalToolbar(groups: [
+                        ToolbarGroup(
+                          groupName: 'undoredo1',
+                          children: [
+                            CustomIconButton(icon: HugeIcons.strokeRoundedUndo03),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedRedo03),
+                          ],
+                        ),
+                        ToolbarGroup(
+                          groupName: 'type',
+                          children: [
+                            CustomDropdownButton(),
+                          ],
+                        ),
+                        ToolbarGroup(
+                          groupName: 'styling',
+                          children: [
+                            CustomIconButton(icon: HugeIcons.strokeRoundedTextBold),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedTextItalic),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedTextUnderline),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedTextStrikethrough),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedLink04),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedSourceCode),
+                          ],
+                        ),
+                        ToolbarGroup(
+                          groupName: 'styling',
+                          children: [
+                            CustomIconButton(icon: HugeIcons.strokeRoundedTextBold),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedTextItalic),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedTextUnderline),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedTextStrikethrough),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedLink04),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedSourceCode),
+                          ],
+                        ),
+                        ToolbarGroup(
+                          groupName: 'styling',
+                          children: [
+                            CustomIconButton(icon: HugeIcons.strokeRoundedTextBold),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedTextItalic),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedTextUnderline),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedTextStrikethrough),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedLink04),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedSourceCode),
+                          ],
+                        ),
+                        ToolbarGroup(
+                          groupName: 'styling',
+                          children: [
+                            CustomIconButton(icon: HugeIcons.strokeRoundedTextBold),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedTextItalic),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedTextUnderline),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedTextStrikethrough),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedLink04),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedSourceCode),
+                          ],
+                        ),
+                        ToolbarGroup(
+                          groupName: 'lists',
+                          children: [
+                            CustomIconButton(icon: HugeIcons.strokeRoundedLeftToRightListBullet),
+                            CustomIconButton(icon: HugeIcons.strokeRoundedLeftToRightListNumber),
                           ],
                         ),*/
                       ),
