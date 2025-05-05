@@ -1,5 +1,5 @@
+import 'package:embermark/widgets/custom_animated_switcher.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 class CustomDropdownButton extends StatefulWidget {
@@ -48,11 +48,11 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
           curve: Curves.linear,
           child: AnimatedContainer(
             height: 35,
-            width: 120,
+            width: 35,
             decoration: BoxDecoration(
               color:
                   _isPressed
-                      ? Color(0xFF3D3D3D)//0xFF343434
+                      ? Color(0xFF3D3D3D)
                       : _isHovered
                       ? Color(0xFF424242)
                       : Color(0xFF343434),
@@ -84,25 +84,19 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
               ],
             ),
             duration: const Duration(milliseconds: 75),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8, right: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Header 1',
-                    style: GoogleFonts.nunito(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  HugeIcon(
-                    icon: HugeIcons.strokeRoundedArrowDown01,
-                    color: Colors.white.withValues(alpha: 0.65),
-                    size: 18,
-                  ),
-                ],
-              ),
+            child: CustomAnimatedSwitcher(
+              child:
+                  _isHovered
+                      ? HugeIcon(
+                        icon: HugeIcons.strokeRoundedArrowRight01,
+                        color: Colors.white.withValues(alpha: 0.85),
+                        size: 20,
+                      )
+                      : HugeIcon(
+                        icon: HugeIcons.strokeRoundedHeading01,
+                        color: Colors.white,
+                        size: 20,
+                      ),
             ),
           ),
         ),
