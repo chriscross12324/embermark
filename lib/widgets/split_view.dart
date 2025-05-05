@@ -137,7 +137,7 @@ class _SplitViewState extends State<SplitView> {
                           : 25,
                   width:
                       isSplitterDragging
-                          ? 2
+                          ? 1.5
                           : isSplitterHovered
                           ? 3
                           : 3,
@@ -157,26 +157,9 @@ class _SplitViewState extends State<SplitView> {
         Container(
           width: rightWidth,
           color: Colors.transparent,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 15, 15, 15),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color(0xFF484848),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.05),
-                  width: 1.5,
-                ),
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.18),
-                    blurRadius: 20,
-                    offset: Offset(0, 10),
-                  ),
-                ],
-              ),
-              child: widget.rightChild,
-            ),
+          child: Container(
+            decoration: BoxDecoration(color: Color(0xFF121212)),
+            child: widget.rightChild,
           ),
         ),
       ],
