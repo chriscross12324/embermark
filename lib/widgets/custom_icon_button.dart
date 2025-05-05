@@ -3,9 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 class CustomIconButton extends StatefulWidget {
-  const CustomIconButton({super.key, required this.icon});
+  const CustomIconButton({
+    super.key,
+    required this.icon,
+    this.isChecked = false,
+    this.callback,
+  });
 
   final IconData icon;
+  final bool isChecked;
+  final VoidCallback? callback;
 
   @override
   State<CustomIconButton> createState() => _CustomIconButtonState();
@@ -37,6 +44,9 @@ class _CustomIconButtonState extends State<CustomIconButton> {
         onTapUp: (_) {
           setState(() {
             _isPressed = false;
+            if (widget.callback != null) {
+              widget.callback!();
+            }
           });
         },
         onTapCancel: () {
@@ -50,11 +60,12 @@ class _CustomIconButtonState extends State<CustomIconButton> {
           curve: Curves.linear,
           child: AnimatedContainer(
             height: 35,
-            width: iconButtonWidthNormal,
+            width: 35,
             decoration: BoxDecoration(
               color:
-                  _isPressed ? Color(0xFF3D3D3D) :
-                  _isHovered
+                  _isPressed
+                      ? Color(0xFF3D3D3D)
+                      : _isHovered
                       ? Color(0xFF424242)
                       : Color(0xFF424242).withValues(alpha: 0),
               borderRadius: BorderRadius.circular(12.5),
@@ -86,11 +97,7 @@ class _CustomIconButtonState extends State<CustomIconButton> {
             ),
             duration: const Duration(milliseconds: 75),
             curve: Curves.linear,
-            child: HugeIcon(
-              icon: widget.icon,
-              color: Colors.white,
-              size: 20,
-            ),
+            child: HugeIcon(icon: widget.icon, color: Colors.white, size: 20),
           ),
         ),
       ),
