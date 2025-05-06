@@ -59,23 +59,23 @@ class _CustomIconButtonState extends State<CustomIconButton> {
           duration: const Duration(milliseconds: 75),
           curve: Curves.linear,
           child: AnimatedContainer(
-            height: 35,
-            width: 35,
+            height: 37,
+            width: 37,
             decoration: BoxDecoration(
               color:
                   _isPressed
-                      ? Color(0xFF3D3D3D)
+                      ? Colors.white.withValues(alpha: 0.15)
                       : _isHovered
-                      ? Color(0xFF424242)
-                      : Color(0xFF424242).withValues(alpha: 0),
-              borderRadius: BorderRadius.circular(12.5),
+                      ? Colors.white.withValues(alpha: 0.25)
+                      : Colors.white.withValues(alpha: 0.0),
+              borderRadius: BorderRadius.circular(13.5),
               border: Border.all(
                 color: Colors.white.withValues(
                   alpha:
                       _isPressed
                           ? 0
                           : _isHovered
-                          ? 0.05
+                          ? 0.1
                           : 0,
                 ),
                 width: 1.5,
@@ -97,7 +97,11 @@ class _CustomIconButtonState extends State<CustomIconButton> {
             ),
             duration: const Duration(milliseconds: 75),
             curve: Curves.linear,
-            child: HugeIcon(icon: widget.icon, color: Colors.white, size: 20),
+            child: HugeIcon(
+              icon: widget.icon,
+              color: widget.isChecked ? Colors.black : Colors.white,
+              size: 20,
+            ),
           ),
         ),
       ),
