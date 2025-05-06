@@ -11,8 +11,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:flutter_acrylic/window.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hugeicons/hugeicons.dart';
+
+import 'core/app_providers.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +24,8 @@ Future<void> main() async {
     await Window.initialize();
   }
 
-  runApp(const EmbermarkApp());
+  runApp(
+      ProviderScope(child: const EmbermarkApp()));
   if (isDesktop()) {
     doWhenWindowReady(() {
       appWindow.minSize = Size(800, 500);
@@ -42,14 +46,14 @@ class EmbermarkApp extends StatelessWidget {
   }
 }
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   final TextEditingController _textEditingController = TextEditingController();
   final ScrollController _scrollController1 = ScrollController();
   final ScrollController _scrollController2 = ScrollController();
@@ -90,59 +94,65 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isPinned = ref.watch(temporaryPinToolbar);
     final belowMinWidth = MediaQuery.of(context).size.width < 640;
 
     return Scaffold(
-      backgroundColor: Color(0xFF1E1E1E),
+      backgroundColor: Color(0xFF171C18),
       body:
           belowMinWidth
               ? SmallWidthWarning()
               : SplitView(
                 leftChild: Stack(
                   children: [
-                    TextField(
-                      expands: true,
-                      maxLines: null,
-                      minLines: null,
-                      keyboardType: TextInputType.multiline,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.fromLTRB(15, 15, 0, 15),
-                        hintText: 'Type...',
-                        hintStyle: GoogleFonts.nunito(
-                          color: Colors.white.withValues(alpha: 0.5),
+                    AnimatedPadding(
+                      padding: EdgeInsets.only(left: isPinned ? 55.0 : 0),
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.fastOutSlowIn,
+                      child: TextField(
+                        expands: true,
+                        maxLines: null,
+                        minLines: null,
+                        keyboardType: TextInputType.multiline,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.fromLTRB(15, 15, 0, 15),
+                          hintText: 'Type...',
+                          hintStyle: GoogleFonts.nunito(
+                            color: Colors.white.withValues(alpha: 0.5),
+                          ),
                         ),
+                        style: GoogleFonts.nunito(
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        scrollController: _scrollController1,
+                        controller: _textEditingController,
+                        onChanged: (newString) {
+                          setState(() {
+                            inputString = newString;
+                          });
+                        },
                       ),
-                      style: GoogleFonts.nunito(
-                        color: Colors.white,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      scrollController: _scrollController1,
-                      controller: _textEditingController,
-                      onChanged: (newString) {
-                        setState(() {
-                          inputString = newString;
-                        });
-                      },
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: VerticalToolbar(groups: [
                         ToolbarGroup(
-                          groupName: 'undoredo1',
+                          groupName: 'History',
                           children: [
                             CustomIconButton(icon: HugeIcons.strokeRoundedUndo03),
                             CustomIconButton(icon: HugeIcons.strokeRoundedRedo03),
                           ],
                         ),
                         ToolbarGroup(
-                          groupName: 'type',
+                          groupName: 'Title',
                           children: [
                             CustomDropdownButton(),
                           ],
                         ),
                         ToolbarGroup(
-                          groupName: 'styling',
+                          groupName: 'Style',
                           children: [
                             CustomIconButton(icon: HugeIcons.strokeRoundedTextBold),
                             CustomIconButton(icon: HugeIcons.strokeRoundedTextItalic),
@@ -153,40 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                         ToolbarGroup(
-                          groupName: 'styling',
-                          children: [
-                            CustomIconButton(icon: HugeIcons.strokeRoundedTextBold),
-                            CustomIconButton(icon: HugeIcons.strokeRoundedTextItalic),
-                            CustomIconButton(icon: HugeIcons.strokeRoundedTextUnderline),
-                            CustomIconButton(icon: HugeIcons.strokeRoundedTextStrikethrough),
-                            CustomIconButton(icon: HugeIcons.strokeRoundedLink04),
-                            CustomIconButton(icon: HugeIcons.strokeRoundedSourceCode),
-                          ],
-                        ),
-                        ToolbarGroup(
-                          groupName: 'styling',
-                          children: [
-                            CustomIconButton(icon: HugeIcons.strokeRoundedTextBold),
-                            CustomIconButton(icon: HugeIcons.strokeRoundedTextItalic),
-                            CustomIconButton(icon: HugeIcons.strokeRoundedTextUnderline),
-                            CustomIconButton(icon: HugeIcons.strokeRoundedTextStrikethrough),
-                            CustomIconButton(icon: HugeIcons.strokeRoundedLink04),
-                            CustomIconButton(icon: HugeIcons.strokeRoundedSourceCode),
-                          ],
-                        ),
-                        ToolbarGroup(
-                          groupName: 'styling',
-                          children: [
-                            CustomIconButton(icon: HugeIcons.strokeRoundedTextBold),
-                            CustomIconButton(icon: HugeIcons.strokeRoundedTextItalic),
-                            CustomIconButton(icon: HugeIcons.strokeRoundedTextUnderline),
-                            CustomIconButton(icon: HugeIcons.strokeRoundedTextStrikethrough),
-                            CustomIconButton(icon: HugeIcons.strokeRoundedLink04),
-                            CustomIconButton(icon: HugeIcons.strokeRoundedSourceCode),
-                          ],
-                        ),
-                        ToolbarGroup(
-                          groupName: 'lists',
+                          groupName: 'List',
                           children: [
                             CustomIconButton(icon: HugeIcons.strokeRoundedLeftToRightListBullet),
                             CustomIconButton(icon: HugeIcons.strokeRoundedLeftToRightListNumber),
@@ -203,21 +180,45 @@ class _HomeScreenState extends State<HomeScreen> {
                     styleSheetTheme: MarkdownStyleSheetBaseTheme.material,
                     styleSheet: MarkdownStyleSheet(
                       a: TextStyle(color: Colors.white),
-                      p: TextStyle(color: Colors.white),
+                      p: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.85),
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                      ),
                       code: TextStyle(color: Colors.white),
-                      h1: TextStyle(color: Colors.white),
+                      h1: TextStyle(
+                        color: Colors.white.withValues(alpha: 1),
+                        height: 1.1,
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                      ),
                       h2: TextStyle(color: Colors.white),
                       h3: TextStyle(color: Colors.white),
                       h4: TextStyle(color: Colors.white),
                       h5: TextStyle(color: Colors.white),
                       h6: TextStyle(color: Colors.white),
                       em: TextStyle(color: Colors.white),
-                      strong: TextStyle(color: Colors.white),
+                      strong: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.85),
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
                       blockquote: TextStyle(color: Colors.white),
+                      blockquoteDecoration: BoxDecoration(
+                        border: Border(
+                          left: BorderSide(color: Colors.black, width: 4),
+                        ),
+                        color: Color(0x34FFFFFF)
+                      ),
                       img: TextStyle(color: Colors.white),
                       checkbox: TextStyle(color: Colors.white),
                       listBullet: TextStyle(color: Colors.white),
+                      horizontalRuleDecoration: BoxDecoration(
+                        border: Border.all(color: Colors.white, width: 1),
+                        borderRadius: BorderRadius.circular(2),
+                      ),
                     ),
+                    controller: _scrollController2,
                   ),
                 ),
               ),
