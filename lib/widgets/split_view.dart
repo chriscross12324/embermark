@@ -154,12 +154,35 @@ class _SplitViewState extends State<SplitView> {
             ),
           ),
         ),
-        Container(
-          width: rightWidth,
-          color: Colors.transparent,
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Container(
-            decoration: BoxDecoration(color: Color(0xFF121212)),
-            child: widget.rightChild,
+            width: rightWidth,
+            color: Colors.transparent,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color(0xFF1A291A),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                ),
+                border: Border(
+                  left: BorderSide(
+                    color: Colors.white.withValues(alpha: 0.1),
+                    width: 2,
+                  ),
+                  top: BorderSide(
+                    color: Colors.white.withValues(alpha: 0.1),
+                    width: 2,
+                  ),
+                  bottom: BorderSide(
+                    color: Colors.white.withValues(alpha: 0.1),
+                    width: 2,
+                  ),
+                ),
+              ),
+              child: widget.rightChild,
+            ),
           ),
         ),
       ],
