@@ -52,10 +52,10 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
             decoration: BoxDecoration(
               color:
                   _isPressed
-                      ? Color(0xFF3D3D3D)
+                      ? Colors.white.withValues(alpha: 0.05)
                       : _isHovered
-                      ? Color(0xFF424242)
-                      : Color(0xFF343434),
+                      ? Colors.white.withValues(alpha: 0.25)
+                      : Colors.white.withValues(alpha: 0.10),
               borderRadius: BorderRadius.circular(12.5),
               border: Border.all(
                 color: Colors.white.withValues(
@@ -63,7 +63,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
                       _isPressed
                           ? 0
                           : _isHovered
-                          ? 0.05
+                          ? 0.1
                           : 0,
                 ),
                 width: 1.5,
@@ -84,19 +84,24 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
               ],
             ),
             duration: const Duration(milliseconds: 75),
-            child: CustomAnimatedSwitcher(
-              child:
-                  _isHovered
-                      ? HugeIcon(
-                        icon: HugeIcons.strokeRoundedArrowRight01,
-                        color: Colors.white.withValues(alpha: 0.85),
-                        size: 20,
-                      )
-                      : HugeIcon(
-                        icon: HugeIcons.strokeRoundedHeading01,
-                        color: Colors.white,
-                        size: 20,
-                      ),
+            child: AnimatedPadding(
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.fastOutSlowIn,
+              padding: EdgeInsets.only(left: _isPressed ? 5 : 0),
+              child: CustomAnimatedSwitcher(
+                child:
+                    _isHovered
+                        ? HugeIcon(
+                          icon: HugeIcons.strokeRoundedArrowRight01,
+                          color: Colors.white.withValues(alpha: 0.85),
+                          size: 20,
+                        )
+                        : HugeIcon(
+                          icon: HugeIcons.strokeRoundedHeading01,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+              ),
             ),
           ),
         ),
