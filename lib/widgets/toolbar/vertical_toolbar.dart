@@ -1,34 +1,32 @@
-import 'package:embermark/widgets/custom_icon_button.dart';
+import 'dart:ui';
+
+import 'package:embermark/core/app_providers.dart';
+import 'package:embermark/widgets/custom_mini_icon_button.dart';
 import 'package:embermark/widgets/list_separator.dart';
 import 'package:embermark/widgets/toolbar/toolbar_group.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 
-class VerticalToolbar extends StatefulWidget {
+class VerticalToolbar extends ConsumerStatefulWidget {
   const VerticalToolbar({super.key, required this.groups});
 
   final List<ToolbarGroup> groups;
 
   @override
-  State<VerticalToolbar> createState() => _VerticalToolbarState();
+  ConsumerState<VerticalToolbar> createState() => _VerticalToolbarState();
 }
 
-class _VerticalToolbarState extends State<VerticalToolbar> {
-  bool isPinned = false;
+class _VerticalToolbarState extends ConsumerState<VerticalToolbar> {
   bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
+    final isPinned = ref.watch(temporaryPinToolbar);
     final List<Widget> toolbarItems = [];
 
     for (int i = 0; i < widget.groups.length; i++) {
-      final group = widget.groups[i];
-      toolbarItems.add(
-        ToolbarGroup(
-          groupName: group.groupName,
-          children: group.children,
-        ),
-      );
+      toolbarItems.add(widget.groups[i]);
 
       if (i < widget.groups.length - 1) {
         toolbarItems.add(const ListSeparator(orientation: Axis.horizontal));
@@ -57,44 +55,74 @@ class _VerticalToolbarState extends State<VerticalToolbar> {
           curve: Curves.fastOutSlowIn,
           child: Column(
             mainAxisSize: MainAxisSize.min,
+            spacing: 5,
             children: [
               AnimatedContainer(
-                height: null,
-                width: isPinned || isExpanded ? 49 : 6,
+                clipBehavior: Clip.hardEdge,
+                height: isPinned || isExpanded ? 35 : 6,
+                width: isPinned || isExpanded ? 35 : 6,
                 decoration: BoxDecoration(
-                  color: Colors.transparent,
+                  color: Color(0xFFFFFFFF).withValues(alpha: 0),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.0),
+                    width: isPinned || isExpanded ? 1.5 : 0,
+                  ),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(isPinned || isExpanded ? 20 : 0),
+                    topRight: Radius.circular(20),
+                    bottomLeft: Radius.circular(
+                      isPinned || isExpanded ? 20 : 0,
+                    ),
+                    bottomRight: Radius.circular(20),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.18),
+                      blurRadius: 20,
+                      offset: Offset(0, 10),
+                    ),
+                  ],
                 ),
                 duration: const Duration(milliseconds: 250),
                 curve: Curves.fastOutSlowIn,
-                child: Padding(
-                  padding: const EdgeInsets.all(7.0),
-                  child: AnimatedOpacity(
-                    opacity: isPinned || isExpanded ? 1.0 : 0.0,
-                    duration: const Duration(milliseconds: 150),
-                    curve:
-                        isPinned || isExpanded
-                            ? Curves.easeInExpo
-                            : Curves.easeInCirc,
-                    child: CustomIconButton(
-                      icon: isPinned ? HugeIcons.strokeRoundedPinOff : HugeIcons.strokeRoundedPin,
+                child: AnimatedOpacity(
+                  opacity: isPinned || isExpanded ? 1.0 : 0.0,
+                  duration: Duration(milliseconds: isExpanded ? 150 : 100),
+                  curve:
+                      isPinned || isExpanded
+                          ? Curves.easeInExpo
+                          : Curves.easeInCirc,
+                  child: Center(
+                    child: CustomMiniIconButton(
+                      icon:
+                          isPinned
+                              ? HugeIcons.strokeRoundedPinOff
+                              : HugeIcons.strokeRoundedPin,
+                      //HugeIcons.strokeRoundedInformationCircle
                       isChecked: isPinned,
                       callback: () {
                         setState(() {
-                          isPinned = !isPinned;
+                          ref
+                              .read(temporaryPinToolbar.notifier)
+                              .updateState(!isPinned);
                         });
-                        ;
                       },
                     ),
                   ),
                 ),
               ),
               ConstrainedBox(
-                constraints: BoxConstraints(maxHeight: 400),
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.65,
+                ),
                 child: AnimatedContainer(
                   height: null,
-                  width: isPinned || isExpanded ? 49 : 6,
+                  width: isPinned || isExpanded ? 49 : 8,
                   decoration: BoxDecoration(
-                    color: Color(0xFF2D2D2D),
+                    color:
+                        isPinned || isExpanded
+                            ? Color(0xFF2A422A /*0xFF2D2D2D*/)
+                            : Color(0xFF335033),
                     border: Border.all(
                       color: Colors.white.withValues(alpha: 0.075),
                       width: isPinned || isExpanded ? 1.5 : 0,
@@ -102,7 +130,9 @@ class _VerticalToolbarState extends State<VerticalToolbar> {
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(isPinned || isExpanded ? 20 : 0),
                       topRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(isPinned || isExpanded ? 20 : 0),
+                      bottomLeft: Radius.circular(
+                        isPinned || isExpanded ? 20 : 0,
+                      ),
                       bottomRight: Radius.circular(20),
                     ),
                     boxShadow: [
@@ -116,7 +146,7 @@ class _VerticalToolbarState extends State<VerticalToolbar> {
                   duration: const Duration(milliseconds: 250),
                   curve: Curves.fastOutSlowIn,
                   child: Padding(
-                    padding: const EdgeInsets.all(5.5),
+                    padding: const EdgeInsets.all(4.5),
                     child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       physics: BouncingScrollPhysics(),
