@@ -12,7 +12,10 @@ class ListSeparator extends StatelessWidget {
       child: Container(
         height: orientation == Axis.vertical ? double.infinity : 2,
         width: orientation == Axis.vertical ? 2 : double.infinity,
-        color: Colors.white.withValues(alpha: 0.05),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(2),
+        ),
       ),
     );
   }
