@@ -1,4 +1,5 @@
 import 'package:embermark/core/app_provider_classes.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,4 +9,12 @@ final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
 
 final temporaryPinToolbar = StateNotifierProvider<TypedProvider<bool>, bool>((ref) {
   return TypedProvider<bool>(false);
+});
+
+final settingToolbarLocation = StateNotifierProvider<TypedProvider<Alignment>, Alignment>((ref) {
+  return TypedProvider<Alignment>(Alignment.centerLeft);
+});
+
+final settingToolbarColumnCount = StateNotifierProvider<TypedProvider<int>, int>((ref) {
+  return TypedProvider<int>(2);
 });
