@@ -1,24 +1,22 @@
+import 'package:embermark/core/app_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ToolbarGroup extends StatefulWidget {
+class ToolbarGroup extends ConsumerStatefulWidget {
   const ToolbarGroup({
     super.key,
     required this.children,
     required this.groupName,
-    this.columnCount = 6,
   });
 
   final List<Widget> children;
   final String groupName;
-  final int columnCount;
-
-  int getColumnCount() => columnCount;
 
   @override
-  State<ToolbarGroup> createState() => _ToolbarGroupState();
+  ConsumerState<ToolbarGroup> createState() => _ToolbarGroupState();
 }
 
-class _ToolbarGroupState extends State<ToolbarGroup> {
+class _ToolbarGroupState extends ConsumerState<ToolbarGroup> {
   final LayerLink _layerLink = LayerLink();
   final GlobalKey _key = GlobalKey();
   OverlayEntry? _overlayEntry;
@@ -65,16 +63,17 @@ class _ToolbarGroupState extends State<ToolbarGroup> {
 
   @override
   Widget build(BuildContext context) {
+    final columnCount = ref.watch(settingToolbarColumnCount);
+
     return GridView.count(
       key: _key,
-      crossAxisCount: widget.columnCount,
+      crossAxisCount: columnCount,
       mainAxisSpacing: 0,
       crossAxisSpacing: 0,
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       children: widget.children,
     );
-    return Column(key: _key, children: widget.children);
   }
 
   @override
