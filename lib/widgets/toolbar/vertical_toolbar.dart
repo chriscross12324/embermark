@@ -37,6 +37,7 @@ class _VerticalToolbarState extends ConsumerState<VerticalToolbar> {
         });
       },
       onExit: (_) {
+        if (isPinned) return;
         setState(() {
           isExpanded = false;
         });
@@ -45,7 +46,7 @@ class _VerticalToolbarState extends ConsumerState<VerticalToolbar> {
         color: Colors.transparent,
         child: AnimatedPadding(
           padding: EdgeInsets.only(
-            left: isPinned || isExpanded ? 10 : 0,
+            left: isExpanded ? 10 : 0,
             right: 10,
           ),
           duration: const Duration(milliseconds: 500),
@@ -56,19 +57,19 @@ class _VerticalToolbarState extends ConsumerState<VerticalToolbar> {
             children: [
               AnimatedContainer(
                 clipBehavior: Clip.hardEdge,
-                height: isPinned || isExpanded ? 35 : 6,
-                width: isPinned || isExpanded ? 35 : 6,
+                height: isExpanded ? 35 : 6,
+                width: isExpanded ? 35 : 6,
                 decoration: BoxDecoration(
                   color: Color(0xFFFFFFFF).withValues(alpha: 0),
                   border: Border.all(
                     color: Colors.white.withValues(alpha: 0.0),
-                    width: isPinned || isExpanded ? 1.5 : 0,
+                    width: isExpanded ? 1.5 : 0,
                   ),
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(isPinned || isExpanded ? 20 : 0),
+                    topLeft: Radius.circular(isExpanded ? 20 : 0),
                     topRight: Radius.circular(20),
                     bottomLeft: Radius.circular(
-                      isPinned || isExpanded ? 20 : 0,
+                      isExpanded ? 20 : 0,
                     ),
                     bottomRight: Radius.circular(20),
                   ),
@@ -83,10 +84,10 @@ class _VerticalToolbarState extends ConsumerState<VerticalToolbar> {
                 duration: const Duration(milliseconds: 250),
                 curve: Curves.fastOutSlowIn,
                 child: AnimatedOpacity(
-                  opacity: isPinned || isExpanded ? 1.0 : 0.0,
+                  opacity: isExpanded ? 1.0 : 0.0,
                   duration: Duration(milliseconds: isExpanded ? 150 : 100),
                   curve:
-                      isPinned || isExpanded
+                      isExpanded
                           ? Curves.easeInExpo
                           : Curves.easeInCirc,
                   child: Center(
@@ -114,26 +115,26 @@ class _VerticalToolbarState extends ConsumerState<VerticalToolbar> {
                 ),
                 child: AnimatedContainer(
                   height: null,
-                  width: isPinned || isExpanded ? 43 * 2 : 6,
+                  width: isExpanded ? 43 * 2 : 6,
                   decoration: BoxDecoration(
                     color:
-                        isPinned || isExpanded
+                        isExpanded
                             ? Color(0xff2b422a)
                             : Color(0xff335034),
                     border: Border.all(
                       color: Colors.white.withValues(alpha: 0.075),
-                      width: isPinned || isExpanded ? 1.5 : 0,
+                      width: isExpanded ? 1.5 : 0,
                     ),
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(isPinned || isExpanded ? 20 : 0),
+                      topLeft: Radius.circular(isExpanded ? 20 : 0),
                       topRight: Radius.circular(
-                        isPinned || isExpanded ? 20 : 4,
+                        isExpanded ? 20 : 4,
                       ),
                       bottomLeft: Radius.circular(
-                        isPinned || isExpanded ? 20 : 0,
+                        isExpanded ? 20 : 0,
                       ),
                       bottomRight: Radius.circular(
-                        isPinned || isExpanded ? 20 : 4,
+                        isExpanded ? 20 : 4,
                       ),
                     ),
                     boxShadow: [
@@ -152,10 +153,10 @@ class _VerticalToolbarState extends ConsumerState<VerticalToolbar> {
                       scrollDirection: Axis.vertical,
                       physics: BouncingScrollPhysics(),
                       child: AnimatedOpacity(
-                        opacity: isPinned || isExpanded ? 1.0 : 0.0,
+                        opacity: isExpanded ? 1.0 : 0.0,
                         duration: Duration(milliseconds: isExpanded ? 150 : 75),
                         curve:
-                            isPinned || isExpanded
+                            isExpanded
                                 ? Curves.easeInExpo
                                 : Curves.easeInCirc,
                         child: Column(children: toolbarItems),
