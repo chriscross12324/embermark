@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'app_providers.dart';
 
 class TypedProvider<T> extends StateNotifier<T> {
   TypedProvider(super.state);
@@ -10,7 +14,7 @@ class TypedProvider<T> extends StateNotifier<T> {
 
   void saveState(T newState, String sharedPreferencesKey, WidgetRef ref) {
     try {
-      /*final sharedPreferences = ref.read(sharedPreferencesProvider);
+      final sharedPreferences = ref.read(sharedPreferencesProvider);
 
       if (newState is int) {
         sharedPreferences.setInt(sharedPreferencesKey, newState);
@@ -24,10 +28,12 @@ class TypedProvider<T> extends StateNotifier<T> {
         sharedPreferences.setStringList(sharedPreferencesKey, newState);
       } else if (newState is Map<String, dynamic>) {
         sharedPreferences.setString(sharedPreferencesKey, jsonEncode(newState));
+      } else if (newState is Alignment) {
+        sharedPreferences.setString(sharedPreferencesKey, newState.toString());
       } else {
         throw Exception("WARNING: Unsupported type (${newState.runtimeType}) "
             "for SharedPreferences");
-      }*/
+      }
 
       updateState(newState);
     } catch (e) {
