@@ -5,10 +5,14 @@ class ToolbarGroup extends StatefulWidget {
     super.key,
     required this.children,
     required this.groupName,
+    this.columnCount = 6,
   });
 
   final List<Widget> children;
   final String groupName;
+  final int columnCount;
+
+  int getColumnCount() => columnCount;
 
   @override
   State<ToolbarGroup> createState() => _ToolbarGroupState();
@@ -63,7 +67,7 @@ class _ToolbarGroupState extends State<ToolbarGroup> {
   Widget build(BuildContext context) {
     return GridView.count(
       key: _key,
-      crossAxisCount: 2,
+      crossAxisCount: widget.columnCount,
       mainAxisSpacing: 0,
       crossAxisSpacing: 0,
       shrinkWrap: true,
