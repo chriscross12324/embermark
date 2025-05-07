@@ -11,7 +11,7 @@ import 'package:hugeicons/hugeicons.dart';
 class VerticalToolbar extends ConsumerStatefulWidget {
   const VerticalToolbar({super.key, required this.groups});
 
-  final List<ToolbarGroup> groups;
+  final List<Widget> groups;
 
   @override
   ConsumerState<VerticalToolbar> createState() => _VerticalToolbarState();
@@ -117,7 +117,7 @@ class _VerticalToolbarState extends ConsumerState<VerticalToolbar> {
                 ),
                 child: AnimatedContainer(
                   height: null,
-                  width: isPinned || isExpanded ? 49 : 8,
+                  width: isPinned || isExpanded ? 43 * 2 : 6,
                   decoration: BoxDecoration(
                     color:
                         isPinned || isExpanded
@@ -129,11 +129,15 @@ class _VerticalToolbarState extends ConsumerState<VerticalToolbar> {
                     ),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(isPinned || isExpanded ? 20 : 0),
-                      topRight: Radius.circular(20),
+                      topRight: Radius.circular(
+                        isPinned || isExpanded ? 20 : 4,
+                      ),
                       bottomLeft: Radius.circular(
                         isPinned || isExpanded ? 20 : 0,
                       ),
-                      bottomRight: Radius.circular(20),
+                      bottomRight: Radius.circular(
+                        isPinned || isExpanded ? 20 : 4,
+                      ),
                     ),
                     boxShadow: [
                       BoxShadow(

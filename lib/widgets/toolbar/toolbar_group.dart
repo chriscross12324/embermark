@@ -61,6 +61,15 @@ class _ToolbarGroupState extends State<ToolbarGroup> {
 
   @override
   Widget build(BuildContext context) {
+    return GridView.count(
+      key: _key,
+      crossAxisCount: 2,
+      mainAxisSpacing: 0,
+      crossAxisSpacing: 0,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      children: widget.children,
+    );
     return Column(key: _key, children: widget.children);
   }
 
