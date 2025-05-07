@@ -48,7 +48,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
           curve: Curves.linear,
           child: AnimatedContainer(
             height: 35,
-            width: 35,
+            width: double.infinity,
             decoration: BoxDecoration(
               color:
                   _isPressed
