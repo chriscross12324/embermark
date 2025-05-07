@@ -98,7 +98,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final belowMinWidth = MediaQuery.of(context).size.width < 640;
 
     return Scaffold(
-      backgroundColor: Color(0xFF171C18),
+      backgroundColor: Color(0xFF171C17),
       body:
           belowMinWidth
               ? SmallWidthWarning()

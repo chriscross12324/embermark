@@ -161,7 +161,7 @@ class _SplitViewState extends State<SplitView> {
             color: Colors.transparent,
             child: Container(
               decoration: BoxDecoration(
-                color: Color(0xFF1A291A),
+                color: Color(0xFF1E301D),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10),
                   bottomLeft: Radius.circular(10),

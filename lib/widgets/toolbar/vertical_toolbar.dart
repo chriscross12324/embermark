@@ -121,8 +121,8 @@ class _VerticalToolbarState extends ConsumerState<VerticalToolbar> {
                   decoration: BoxDecoration(
                     color:
                         isPinned || isExpanded
-                            ? Color(0xFF2A422A /*0xFF2D2D2D*/)
-                            : Color(0xFF335033),
+                            ? Color(0xff2b422a)
+                            : Color(0xff335034),
                     border: Border.all(
                       color: Colors.white.withValues(alpha: 0.075),
                       width: isPinned || isExpanded ? 1.5 : 0,

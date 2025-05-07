@@ -50,10 +50,10 @@ class _CustomMiniIconButtonState extends State<CustomMiniIconButton> {
             decoration: BoxDecoration(
               color:
                   _isPressed
-                      ? blendWithWhite(Color(0xFF416C41), 0.25)
+                      ? blendWithWhite(Color(0xFF456C41), 0.25)
                       : _isHovered
-                      ? blendWithWhite(Color(0xFF416C41), 0.35)
-                      : blendWithWhite(Color(0xFF416C41), 0.00),
+                      ? blendWithWhite(Color(0xFF456C41), 0.35)
+                      : blendWithWhite(Color(0xFF446C41), 0.00),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: Colors.white.withValues(
