@@ -106,236 +106,231 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body:
           belowMinWidth
               ? SmallWidthWarning()
-              : SplitView(
-                leftChild: Stack(
-                  children: [
-                    AnimatedPadding(
-                      padding: EdgeInsets.only(left: isPinned ? 55.0*2 : 5.0),
-                      duration: const Duration(milliseconds: 250),
-                      curve: Curves.fastOutSlowIn,
-                      child: TextField(
-                        expands: true,
-                        maxLines: null,
-                        minLines: null,
-                        keyboardType: TextInputType.multiline,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.fromLTRB(15, 15, 0, 15),
-                          hintText: 'Type...',
-                          hintStyle: GoogleFonts.nunito(
+              : Stack(
+                children: [
+                  SplitView(
+                    leftChild: TextField(
+                      expands: true,
+                      maxLines: null,
+                      minLines: null,
+                      keyboardType: TextInputType.multiline,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.fromLTRB(15, 15, 0, 15),
+                        hintText: 'Type...',
+                        hintStyle: GoogleFonts.nunito(
+                          color: Colors.white.withValues(alpha: 0.5),
+                        ),
+                      ),
+                      style: GoogleFonts.nunito(
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      scrollController: _scrollController1,
+                      controller: _textEditingController,
+                      onChanged: (newString) {
+                        setState(() {
+                          inputString = newString;
+                        });
+                      },
+                      cursorColor: Colors.white,
+                      cursorHeight: 18,
+                      cursorOpacityAnimates: true,
+                      cursorRadius: Radius.circular(2),
+                      cursorWidth: 2,
+                    ),
+                    rightChild: SelectionArea(
+                      child: Markdown(
+                        data: inputString,
+                        selectable: false,
+                        styleSheetTheme: MarkdownStyleSheetBaseTheme.material,
+                        styleSheet: MarkdownStyleSheet(
+                          a: TextStyle(color: Colors.white),
+                          p: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.85),
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          ),
+                          pPadding: EdgeInsets.zero,
+                          code: TextStyle(color: Colors.white),
+                          h1: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.9),
+                            height: 1.1,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          h1Padding: EdgeInsets.only(top: 5),
+                          h2: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.9),
+                            height: 1.1,
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          h2Padding: EdgeInsets.only(top: 5),
+                          h3: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.9),
+                            height: 1.1,
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          h3Padding: EdgeInsets.only(top: 5),
+                          h4: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.9),
+                            height: 1.1,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          h4Padding: EdgeInsets.only(top: 5),
+                          h5: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.9),
+                            height: 1.1,
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          h5Padding: EdgeInsets.only(top: 5),
+                          h6: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.9),
+                            height: 1.1,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          h6Padding: EdgeInsets.only(top: 5),
+                          em: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.9),
+                            height: 1.1,
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          ),
+                          strong: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.85),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          del: TextStyle(
                             color: Colors.white.withValues(alpha: 0.5),
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                            decorationColor: Colors.white.withValues(alpha: 0.8),
+                            decorationThickness: 1.5,
                           ),
+                          blockquote: TextStyle(color: Colors.white),
+                          img: TextStyle(color: Colors.white),
+                          checkbox: TextStyle(color: Colors.white),
+                          blockSpacing: 5.0,
+                          listIndent: 24,
+                          listBullet: TextStyle(color: Colors.white),
+                          listBulletPadding: EdgeInsets.zero,
+                          tableHead: TextStyle(),
+                          tableBody: TextStyle(),
+                          tableHeadAlign: TextAlign.left,
+                          tablePadding: EdgeInsets.zero,
+                          tableBorder: TableBorder.all(
+                            color: Colors.white.withValues(alpha: 0.25),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          tableColumnWidth: null,
+                          tableScrollbarThumbVisibility: false,
+                          tableCellsPadding: null,
+                          tableCellsDecoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.15),
+                          ),
+                          tableVerticalAlignment: TableCellVerticalAlignment.middle,
+                          blockquotePadding: EdgeInsets.symmetric(
+                            vertical: 5,
+                            horizontal: 15,
+                          ),
+                          blockquoteDecoration: BoxDecoration(
+                            border: Border(
+                              left: BorderSide(color: Color(0xFF39B543), width: 4),
+                            ),
+                            borderRadius: BorderRadius.circular(4),
+                            color: Colors.white.withValues(alpha: 0.15),
+                          ),
+                          codeblockPadding: null,
+                          codeblockDecoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: Colors.white.withValues(alpha: 0.15),
+                          ),
+                          horizontalRuleDecoration: BoxDecoration(
+                            border: Border.all(color: Colors.white, width: 1),
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                          textAlign: WrapAlignment.start,
+                          h1Align: WrapAlignment.start,
+                          h2Align: WrapAlignment.start,
+                          h3Align: WrapAlignment.start,
+                          h4Align: WrapAlignment.start,
+                          h5Align: WrapAlignment.start,
+                          h6Align: WrapAlignment.start,
+                          unorderedListAlign: WrapAlignment.start,
+                          orderedListAlign: WrapAlignment.start,
+                          blockquoteAlign: WrapAlignment.start,
+                          codeblockAlign: WrapAlignment.start,
+                          superscriptFontFeatureTag: null,
+                          textScaler: null,
                         ),
-                        style: GoogleFonts.nunito(
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                        ),
-                        scrollController: _scrollController1,
-                        controller: _textEditingController,
-                        onChanged: (newString) {
-                          setState(() {
-                            inputString = newString;
-                          });
-                        },
-                        cursorColor: Colors.white,
-                        cursorHeight: 18,
-                        cursorOpacityAnimates: true,
-                        cursorRadius: Radius.circular(2),
-                        cursorWidth: 2,
+                        controller: _scrollController2,
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: VerticalToolbar(
-                        groups: [
-                          ToolbarGroup(
-                            groupName: 'History',
-                            children: [
-                              CustomIconButton(
-                                icon: HugeIcons.strokeRoundedUndo03,
-                              ),
-                              CustomIconButton(
-                                icon: HugeIcons.strokeRoundedRedo03,
-                              ),
-                            ],
-                          ),
-                          CustomDropdownButton(),
-                          ToolbarGroup(
-                            groupName: 'Style',
-                            children: [
-                              CustomIconButton(
-                                icon: HugeIcons.strokeRoundedTextBold,
-                              ),
-                              CustomIconButton(
-                                icon: HugeIcons.strokeRoundedTextItalic,
-                              ),
-                              CustomIconButton(
-                                icon: HugeIcons.strokeRoundedTextUnderline,
-                              ),
-                              CustomIconButton(
-                                icon: HugeIcons.strokeRoundedTextStrikethrough,
-                              ),
-                              CustomIconButton(
-                                icon: HugeIcons.strokeRoundedLink04,
-                              ),
-                              CustomIconButton(
-                                icon: HugeIcons.strokeRoundedSourceCode,
-                              ),
-                            ],
-                          ),
-                          ToolbarGroup(
-                            groupName: 'List',
-                            children: [
-                              CustomIconButton(
-                                icon:
-                                    HugeIcons
-                                        .strokeRoundedLeftToRightListBullet,
-                              ),
-                              CustomIconButton(
-                                icon:
-                                    HugeIcons
-                                        .strokeRoundedLeftToRightListNumber,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                rightChild: SelectionArea(
-                  child: Markdown(
-                    data: inputString,
-                    selectable: false,
-                    styleSheetTheme: MarkdownStyleSheetBaseTheme.material,
-                    styleSheet: MarkdownStyleSheet(
-                      a: TextStyle(color: Colors.white),
-                      p: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.85),
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      pPadding: EdgeInsets.zero,
-                      code: TextStyle(color: Colors.white),
-                      h1: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.9),
-                        height: 1.1,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      h1Padding: EdgeInsets.only(top: 5),
-                      h2: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.9),
-                        height: 1.1,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      h2Padding: EdgeInsets.only(top: 5),
-                      h3: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.9),
-                        height: 1.1,
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      h3Padding: EdgeInsets.only(top: 5),
-                      h4: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.9),
-                        height: 1.1,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      h4Padding: EdgeInsets.only(top: 5),
-                      h5: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.9),
-                        height: 1.1,
-                        fontSize: 23,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      h5Padding: EdgeInsets.only(top: 5),
-                      h6: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.9),
-                        height: 1.1,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      h6Padding: EdgeInsets.only(top: 5),
-                      em: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.9),
-                        height: 1.1,
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      strong: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.85),
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      del: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.5),
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                        decorationColor: Colors.white.withValues(alpha: 0.8),
-                        decorationThickness: 1.5,
-                      ),
-                      blockquote: TextStyle(color: Colors.white),
-                      img: TextStyle(color: Colors.white),
-                      checkbox: TextStyle(color: Colors.white),
-                      blockSpacing: 5.0,
-                      listIndent: 24,
-                      listBullet: TextStyle(color: Colors.white),
-                      listBulletPadding: EdgeInsets.zero,
-                      tableHead: TextStyle(),
-                      tableBody: TextStyle(),
-                      tableHeadAlign: TextAlign.left,
-                      tablePadding: EdgeInsets.zero,
-                      tableBorder: TableBorder.all(
-                        color: Colors.white.withValues(alpha: 0.25),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      tableColumnWidth: null,
-                      tableScrollbarThumbVisibility: false,
-                      tableCellsPadding: null,
-                      tableCellsDecoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.15),
-                      ),
-                      tableVerticalAlignment: TableCellVerticalAlignment.middle,
-                      blockquotePadding: EdgeInsets.symmetric(
-                        vertical: 5,
-                        horizontal: 15,
-                      ),
-                      blockquoteDecoration: BoxDecoration(
-                        border: Border(
-                          left: BorderSide(color: Color(0xFF39B543), width: 4),
-                        ),
-                        borderRadius: BorderRadius.circular(4),
-                        color: Colors.white.withValues(alpha: 0.15),
-                      ),
-                      codeblockPadding: null,
-                      codeblockDecoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        color: Colors.white.withValues(alpha: 0.15),
-                      ),
-                      horizontalRuleDecoration: BoxDecoration(
-                        border: Border.all(color: Colors.white, width: 1),
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                      textAlign: WrapAlignment.start,
-                      h1Align: WrapAlignment.start,
-                      h2Align: WrapAlignment.start,
-                      h3Align: WrapAlignment.start,
-                      h4Align: WrapAlignment.start,
-                      h5Align: WrapAlignment.start,
-                      h6Align: WrapAlignment.start,
-                      unorderedListAlign: WrapAlignment.start,
-                      orderedListAlign: WrapAlignment.start,
-                      blockquoteAlign: WrapAlignment.start,
-                      codeblockAlign: WrapAlignment.start,
-                      superscriptFontFeatureTag: null,
-                      textScaler: null,
-                    ),
-                    controller: _scrollController2,
                   ),
-                ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: VerticalToolbar(
+                      groups: [
+                        ToolbarGroup(
+                          groupName: 'History',
+                          children: [
+                            CustomIconButton(
+                              icon: HugeIcons.strokeRoundedUndo03,
+                            ),
+                            CustomIconButton(
+                              icon: HugeIcons.strokeRoundedRedo03,
+                            ),
+                          ],
+                        ),
+                        CustomDropdownButton(),
+                        ToolbarGroup(
+                          groupName: 'Style',
+                          children: [
+                            CustomIconButton(
+                              icon: HugeIcons.strokeRoundedTextBold,
+                            ),
+                            CustomIconButton(
+                              icon: HugeIcons.strokeRoundedTextItalic,
+                            ),
+                            CustomIconButton(
+                              icon: HugeIcons.strokeRoundedTextUnderline,
+                            ),
+                            CustomIconButton(
+                              icon: HugeIcons.strokeRoundedTextStrikethrough,
+                            ),
+                            CustomIconButton(
+                              icon: HugeIcons.strokeRoundedLink04,
+                            ),
+                            CustomIconButton(
+                              icon: HugeIcons.strokeRoundedSourceCode,
+                            ),
+                          ],
+                        ),
+                        ToolbarGroup(
+                          groupName: 'List',
+                          children: [
+                            CustomIconButton(
+                              icon:
+                              HugeIcons
+                                  .strokeRoundedLeftToRightListBullet,
+                            ),
+                            CustomIconButton(
+                              icon:
+                              HugeIcons
+                                  .strokeRoundedLeftToRightListNumber,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
     );
   }
