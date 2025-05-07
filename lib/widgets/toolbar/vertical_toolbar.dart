@@ -156,7 +156,7 @@ class _VerticalToolbarState extends ConsumerState<VerticalToolbar> {
                       physics: BouncingScrollPhysics(),
                       child: AnimatedOpacity(
                         opacity: isPinned || isExpanded ? 1.0 : 0.0,
-                        duration: const Duration(milliseconds: 150),
+                        duration: Duration(milliseconds: isExpanded ? 150 : 75),
                         curve:
                             isPinned || isExpanded
                                 ? Curves.easeInExpo
