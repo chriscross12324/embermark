@@ -1,9 +1,6 @@
-import 'dart:ui';
-
 import 'package:embermark/core/app_providers.dart';
 import 'package:embermark/widgets/custom_mini_icon_button.dart';
 import 'package:embermark/widgets/list_separator.dart';
-import 'package:embermark/widgets/toolbar/toolbar_group.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
