@@ -1,110 +1,114 @@
 import 'package:embermark/core/app_constants.dart';
+import 'package:embermark/core/app_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 
-class CustomIconButton extends StatefulWidget {
+class CustomIconButton extends ConsumerStatefulWidget {
   const CustomIconButton({
     super.key,
     required this.icon,
     this.isChecked = false,
-    this.callback,
+    this.onPressed,
   });
 
   final IconData icon;
   final bool isChecked;
-  final VoidCallback? callback;
+  final VoidCallback? onPressed;
 
   @override
-  State<CustomIconButton> createState() => _CustomIconButtonState();
+  ConsumerState<CustomIconButton> createState() => _CustomIconButtonState();
 }
 
-class _CustomIconButtonState extends State<CustomIconButton> {
-  bool _isHovered = false;
-  bool _isPressed = false;
+class _CustomIconButtonState extends ConsumerState<CustomIconButton> {
+  bool _hovering = false;
+  bool _pressing = false;
+
+  void _setHover(bool value) => setState(() => _hovering = value);
+
+  void _setPress(bool value) => setState(() => _pressing = value);
+
+  // Visual State Styling
+  double get _backgroundOpacity =>
+      _pressing
+          ? 0.15
+          : _hovering
+          ? 0.25
+          : 0.0;
+
+  double get _borderOpacity =>
+      _pressing
+          ? 0.0
+          : _hovering
+          ? 0.1
+          : 0.0;
+
+  double get _shadowOpacity =>
+      _pressing
+          ? 0.0
+          : _hovering
+          ? 0.18
+          : 0.0;
+
+  static const _animationDuration = Duration(milliseconds: 75);
 
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      onEnter: (_) {
-        setState(() {
-          _isHovered = true;
-        });
-      },
-      onExit: (_) {
-        setState(() {
-          _isHovered = false;
-        });
-      },
+      onEnter: (_) => _setHover(true),
+      onExit: (_) => _setHover(false),
       child: GestureDetector(
-        onTapDown: (_) {
-          setState(() {
-            _isPressed = true;
-          });
-        },
+        onTapDown: (_) => _setPress(true),
         onTapUp: (_) {
-          setState(() {
-            _isPressed = false;
-            if (widget.callback != null) {
-              widget.callback!();
-            }
-          });
+          _setPress(false);
+          widget.onPressed?.call();
         },
-        onTapCancel: () {
-          setState(() {
-            _isPressed = false;
-          });
-        },
-        child: AnimatedScale(
-          scale: _isPressed ? 0.99 : 1.0,
-          duration: const Duration(milliseconds: 75),
-          curve: Curves.linear,
-          child: AnimatedContainer(
-            height: 37,
-            width: 37,
-            decoration: BoxDecoration(
-              color:
-                  _isPressed
-                      ? Colors.white.withValues(alpha: 0.15)
-                      : _isHovered
-                      ? Colors.white.withValues(alpha: 0.25)
-                      : Colors.white.withValues(alpha: 0.0),
-              borderRadius: BorderRadius.circular(13.5),
-              border: Border.all(
-                color: Colors.white.withValues(
-                  alpha:
-                      _isPressed
-                          ? 0
-                          : _isHovered
-                          ? 0.1
-                          : 0,
-                ),
-                width: 1.5,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(
-                    alpha:
-                        _isPressed
-                            ? 0
-                            : _isHovered
-                            ? 0.18
-                            : 0,
-                  ),
-                  blurRadius: 5,
-                  offset: Offset(0, 5),
-                ),
-              ],
-            ),
-            duration: const Duration(milliseconds: 75),
-            curve: Curves.linear,
-            child: HugeIcon(
-              icon: widget.icon,
-              color: widget.isChecked ? Colors.black : Colors.white,
-              size: 20,
-            ),
-          ),
-        ),
+        onTapCancel: () => _setPress(false),
+        child: _buildAnimatedScale(),
       ),
+    );
+  }
+
+  Widget _buildAnimatedScale() {
+    return AnimatedScale(
+      scale: _pressing ? 0.99 : 1.0,
+      duration: _animationDuration,
+      child: _buildAnimatedContainer(),
+    );
+  }
+
+  Widget _buildAnimatedContainer() {
+    final interfaceScale = ref.watch(settingInterfaceScale);
+
+    return AnimatedContainer(
+      height: interfaceScale.buttonSize,
+      width: interfaceScale.buttonSize,
+      duration: _animationDuration,
+      curve: Curves.linear,
+      decoration: _buildDecoration(),
+      child: HugeIcon(
+        icon: widget.icon,
+        color: widget.isChecked ? Colors.black : Colors.white,
+        size: interfaceScale.iconSize,
+      ),
+    );
+  }
+
+  BoxDecoration _buildDecoration() {
+    return BoxDecoration(
+      color: Colors.white.withValues(alpha: _backgroundOpacity),
+      borderRadius: BorderRadius.circular(13.5),
+      border: Border.all(
+        color: Colors.white.withValues(alpha: _borderOpacity),
+        width: 1.5,
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withValues(alpha: _shadowOpacity),
+          blurRadius: 5,
+          offset: const Offset(0, 5),
+        ),
+      ],
     );
   }
 }
