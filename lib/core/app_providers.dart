@@ -18,3 +18,7 @@ final settingToolbarLocation = StateNotifierProvider<TypedProvider<Alignment>, A
 final settingToolbarColumnCount = StateNotifierProvider<TypedProvider<int>, int>((ref) {
   return TypedProvider<int>(2);
 });
+
+final settingInterfaceScale = StateNotifierProvider<TypedProvider<InterfaceScale>, InterfaceScale>((ref) {
+  return TypedProvider<InterfaceScale>(InterfaceScale.normal);
+});
