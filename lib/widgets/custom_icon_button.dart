@@ -108,3 +108,27 @@ class _CustomIconButtonState extends State<CustomIconButton> {
     );
   }
 }
+
+extension ButtonScaleValue on InterfaceScale {
+  double get buttonSize {
+    switch (this) {
+      case InterfaceScale.small:
+        return iconButtonWidthSmall;
+      case InterfaceScale.normal:
+        return iconButtonWidthNormal;
+      case InterfaceScale.large:
+        return iconButtonWidthLarge;
+    }
+  }
+
+  double get iconSize {
+    switch (this) {
+      case InterfaceScale.small:
+        return iconButtonWidthSmall / 2;
+      case InterfaceScale.normal:
+        return iconButtonWidthNormal / 2;
+      case InterfaceScale.large:
+        return iconButtonWidthLarge / 2;
+    }
+  }
+}
